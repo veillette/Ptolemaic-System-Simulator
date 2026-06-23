@@ -12,20 +12,17 @@ export default class ControlsAndSettings extends React.Component {
     render() {
         let buttonValue = this.props.controls.isAnimationEnabled ? "Pause Animation" : "Start Animation";
         const CheckBox = (name, displayName) => {
-            let classNamePostfix = this.props.controls[name] ? `checked` : `unchecked`;
             return (
-                <div>
-                    <div className={`CheckboxWrap_${classNamePostfix}`}>
-                        <input
-                            type="checkbox"
-                            name={name}
-                            id={name}
-                            checked={this.props.controls[name]}
-                            onChange={this.handleCheckbox}
-                            className="custom-control-input"
-                        />
-                        <label htmlFor={name} className="CheckBoxLabel custom-control-label">{displayName}</label>
-                    </div>
+                <div className="form-check">
+                    <input
+                        type="checkbox"
+                        name={name}
+                        id={name}
+                        checked={this.props.controls[name]}
+                        onChange={this.handleCheckbox}
+                        className="form-check-input"
+                    />
+                    <label htmlFor={name} className="form-check-label">{displayName}</label>
                 </div>
             );
         }
@@ -50,7 +47,7 @@ export default class ControlsAndSettings extends React.Component {
                     value={this.props.controls.animationRate}
                     onChange={this.handleSliderChange}
                 />
-                <div className="custom-control custom-checkbox">
+                <div>
                     {CheckBox("showDeferent", "Show Deferent")}
                     {CheckBox("showEpicycle", "Show Epicycle")}
                     {CheckBox("showPlanetVector", "Show Planet Vector")}

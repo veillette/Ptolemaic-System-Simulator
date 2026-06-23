@@ -115,7 +115,7 @@ export default class PlanetaryParameters extends React.Component {
                 </fieldset>
                 <fieldset>
                     <legend>Planet Type</legend>
-                    <div className="custom-control custom-radio custom-control-inline">
+                    <div className="form-check form-check-inline">
                         <input
                             type="radio"
                             name="planetType"
@@ -123,11 +123,11 @@ export default class PlanetaryParameters extends React.Component {
                             value={PlanetTypes.SUPERIOR}
                             checked={this.props.params.planetType === PlanetTypes.SUPERIOR}
                             onChange={this.handleRadioBoxes}
-                            className="custom-control-input"
+                            className="form-check-input"
                         />
-                        <label htmlFor="planetTypeRadio1" className="custom-control-label">Superior</label>
+                        <label htmlFor="planetTypeRadio1" className="form-check-label">Superior</label>
                     </div>
-                    <div className="custom-control custom-radio custom-control-inline">
+                    <div className="form-check form-check-inline">
                         <input
                             type="radio"
                             name="planetType"
@@ -135,9 +135,9 @@ export default class PlanetaryParameters extends React.Component {
                             value={PlanetTypes.INFERIOR}
                             checked={this.props.params.planetType === PlanetTypes.INFERIOR}
                             onChange={this.handleRadioBoxes}
-                            className="custom-control-input"
+                            className="form-check-input"
                         />
-                        <label htmlFor="planetTypeRadio2" className="custom-control-label">Inferior</label>
+                        <label htmlFor="planetTypeRadio2" className="form-check-label">Inferior</label>
                     </div>
                 </fieldset>
             </React.Fragment>
@@ -212,7 +212,7 @@ class PlanetPresetSelection extends React.Component {
             );
         });
         return (
-            <form onSubmit={this.handleSubmit} className="form-inline">
+            <form onSubmit={this.handleSubmit} className="d-flex align-items-center">
                 <label> 
                     PRESETS:
                     &nbsp;&nbsp;

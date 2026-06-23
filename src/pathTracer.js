@@ -40,7 +40,7 @@ export default class PathTracer {
 
         this.rope = new PIXI.SimpleRope(TRAIL_TEXTURE, this.points);
         this.setPathLength(pathLength);
-        this.rope.blendmode = PIXI.BLEND_MODES.ADD;
+        this.rope.blendMode = PIXI.BLEND_MODES.ADD;
     }
 
     getPixiObject() {

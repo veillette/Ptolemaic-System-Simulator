@@ -86,7 +86,6 @@ export default class OrbitView extends React.Component {
 
         /* Variables for Dragging */
         this.isSunDragging = false;
-        this.sunDraggingEventData = null;
         this.deltaTimeFromDrag = 0;
     }
 
@@ -98,7 +97,7 @@ export default class OrbitView extends React.Component {
             width: this.sideLength,
             height: this.sideLength,
         });
-        this.app.renderer.plugins.interaction.autoPreventDefault = false;
+        this.app.renderer.events.autoPreventDefault = false;
         this.app.renderer.view.style['touch-action'] = 'auto';
         this.pixiElement.appendChild(this.app.view);
         // this.app.stage.addChild(rope);
@@ -485,21 +484,19 @@ export default class OrbitView extends React.Component {
         }
     }
 
-    onSunDragStart(event) {
+    onSunDragStart() {
         this.isSunDragging = true;
         this.sunGraphic.alpha = 0.5;
-        this.sunDraggingEventData = event.data;
     }
 
-    onSunDragEnd(event) {
+    onSunDragEnd() {
         this.isSunDragging = false;
         this.sunGraphic.alpha = 1;
-        this.sunDraggingEventData = null;
     }
 
     onSunDragMove(event) {
         if (this.isSunDragging === true) {
-            const newPosition = this.sunDraggingEventData.getLocalPosition(this.sunGraphic.parent);
+            const newPosition = event.getLocalPosition(this.sunGraphic.parent);
             const lastAngle = Math.atan2(this.sideLength/2 - this.sunGraphic.y, this.sunGraphic.x - this.sideLength/2);
             const newAngle = Math.atan2(this.sideLength/2 - newPosition.y, newPosition.x - this.sideLength/2);
             let deltaAngle = newAngle - lastAngle;

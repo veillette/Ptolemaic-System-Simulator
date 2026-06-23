@@ -50,7 +50,7 @@ export default class ZodiacStrip extends React.Component {
             resolution: Math.min(window.devicePixelRatio, 3) || 1,
             autoDensity: true,
         });
-        this.app.renderer.plugins.interaction.autoPreventDefault = false;
+        this.app.renderer.events.autoPreventDefault = false;
         this.app.renderer.view.style['touch-action'] = 'auto';
         this.pixiElement.appendChild(this.app.view);
         this.app.stage.addChild(this.zodiacGraphic);
