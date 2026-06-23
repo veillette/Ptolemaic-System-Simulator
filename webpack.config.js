@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -12,9 +11,10 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js',
         publicPath: '/dist/',
+        clean: true,
     },
     resolve: {
-        extensions: ['*', '.js', '.jsx'],
+        extensions: ['.js', '.jsx'],
     },
     module: {
         rules: [
@@ -29,5 +29,17 @@ module.exports = {
                 use: ['babel-loader']
             }
         ]
+    },
+    devServer: {
+        // Serve the project root so index.html, css/ and img/ are reachable,
+        // while the compiled bundles are exposed under /dist/.
+        static: {
+            directory: __dirname,
+        },
+        devMiddleware: {
+            publicPath: '/dist/',
+        },
+        hot: true,
+        open: true,
     }
 };

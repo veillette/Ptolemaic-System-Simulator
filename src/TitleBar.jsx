@@ -3,7 +3,8 @@ import React from 'react';
 
 export default class TitleBar extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        this.onResetClick = this.onResetClick.bind(this);
     }
 
     render() {
@@ -13,7 +14,7 @@ export default class TitleBar extends React.Component {
                     <span className="navbar-brand mb-0 text-light h1">Ptolemaic System Simulator</span>
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <button type="button" className="btn btn-link text-light" onClick={this.onResetClick.bind(this)}>Reset</button>
+                            <button type="button" className="btn btn-link text-light" onClick={this.onResetClick}>Reset</button>
                         </li>
                         <li className="nav-item">
                             <button type="button" className="btn btn-link text-light" data-toggle="modal" data-target="#helpModal">Help</button>

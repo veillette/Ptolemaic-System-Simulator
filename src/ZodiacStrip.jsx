@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as PIXI from 'pixi.js'
+import { longitudeToLocationX } from './util/orbitalMath.js';
 
 const WIDTH = 800;
 const HEIGHT = 262;
@@ -147,7 +148,7 @@ export default class ZodiacStrip extends React.Component {
         let wrapLeft = xp > xs;
         let y = ARROW_LINE_Y;
         let direction = 1;
-        /* Draw The Arrrow  */
+        /* Draw The Arrow */
         this.arrowGraphic.clear();
         this.arrowGraphic.lineStyle(2, LINE_COLOR);
         this.arrowGraphic.moveTo(xs, y);
@@ -174,10 +175,7 @@ export default class ZodiacStrip extends React.Component {
 
     /* Converts a longitude input to pixel location on x-axis of ZodiacStrip */
     longitudeToLocationX(longitude) {
-        let x = longitude < 0 ? longitude + 360 : longitude;
-        x = (x + 90) % 360;
-        x = -x + 360;
-        return WIDTH * x / 360;
+        return longitudeToLocationX(longitude, WIDTH);
     }
 
 }

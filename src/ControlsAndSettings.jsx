@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 export default class ControlsAndSettings extends React.Component {
     constructor(props) {
         super(props);
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+        this.handleSliderChange = this.handleSliderChange.bind(this);
+        this.handleCheckbox = this.handleCheckbox.bind(this);
     }
 
     render() {
@@ -18,7 +21,7 @@ export default class ControlsAndSettings extends React.Component {
                             name={name}
                             id={name}
                             checked={this.props.controls[name]}
-                            onChange={this.handleCheckbox.bind(this)}
+                            onChange={this.handleCheckbox}
                             className="custom-control-input"
                         />
                         <label htmlFor={name} className="CheckBoxLabel custom-control-label">{displayName}</label>
@@ -33,7 +36,7 @@ export default class ControlsAndSettings extends React.Component {
                     className="btn btn-primary"
                     type="button"
                     value={buttonValue}
-                    onClick={this.handleButtonClick.bind(this)}
+                    onClick={this.handleButtonClick}
                 />
                 <p></p>
                 <label htmlFor="animationRate">Animation Rate</label>
@@ -45,7 +48,7 @@ export default class ControlsAndSettings extends React.Component {
                     max="1"
                     step="0.01"
                     value={this.props.controls.animationRate}
-                    onChange={this.handleSliderChange.bind(this)}
+                    onChange={this.handleSliderChange}
                 />
                 <div className="custom-control custom-checkbox">
                     {CheckBox("showDeferent", "Show Deferent")}
@@ -66,7 +69,7 @@ export default class ControlsAndSettings extends React.Component {
                     max="1"
                     step="0.01"
                     value={this.props.controls.pathDuration}
-                    onChange={this.handleSliderChange.bind(this)}
+                    onChange={this.handleSliderChange}
                 />
             </React.Fragment>
         );

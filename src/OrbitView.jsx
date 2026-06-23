@@ -35,13 +35,19 @@ export default class OrbitView extends React.Component {
         this.animationFrameLoop = this.animationFrameLoop.bind(this);
 
         /**
-         * Side Length is used to determine the legnth of a side of the PIXI
+         * Side Length is used to determine the length of a side of the PIXI
          * Canvas.  Both Width and Height will be set to the side length,
          * this is to make the drawings independent from the actual pixel
          * dimensions of the drawings.
          * @type {Number}
          */
         this.sideLength = 800;
+
+        /* Last values reported to the parent, used to avoid triggering a React
+        re-render on every animation frame when nothing has actually changed. */
+        this.lastReportedTime = null;
+        this.lastReportedSunLongitude = null;
+        this.lastReportedEclipticLongitude = null;
 
         this.pixiElement = null;
         this.app = null;
@@ -235,7 +241,10 @@ export default class OrbitView extends React.Component {
             this.deltaTimeFromDrag = 0;
         }
         let t = this.currentTime;
-        this.props.onTimeChange(t);
+        if (t !== this.lastReportedTime) {
+            this.lastReportedTime = t;
+            this.props.onTimeChange(t);
+        }
 
         /* Alias Variables for Planetary Params */
         let ecc = this.props.planetaryParameters.eccentricity;
@@ -296,11 +305,17 @@ export default class OrbitView extends React.Component {
         this.y_sun = 3 * R * Math.sin(2 * Math.PI * t);
         this.sun_longitude = Math.atan2(this.y_sun, this.x_sun) * 180 / Math.PI;
 
-        /* Let the Longitudes be Known to other Components */
-        this.props.onLongitudeChange({
-            sun_longitude: this.sun_longitude,
-            ecliptic_longitude: this.ecliptic_longitude,
-        })
+        /* Let the Longitudes be Known to other Components (only when they
+        actually change, to avoid needless re-renders every frame). */
+        if (this.sun_longitude !== this.lastReportedSunLongitude ||
+            this.ecliptic_longitude !== this.lastReportedEclipticLongitude) {
+            this.lastReportedSunLongitude = this.sun_longitude;
+            this.lastReportedEclipticLongitude = this.ecliptic_longitude;
+            this.props.onLongitudeChange({
+                sun_longitude: this.sun_longitude,
+                ecliptic_longitude: this.ecliptic_longitude,
+            })
+        }
 
         /* For Debugging Purposes */
         // this.setState({
@@ -494,7 +509,6 @@ export default class OrbitView extends React.Component {
             else if (lastAngle < -Math.PI/2 && newAngle > Math.PI/2) {
                 deltaAngle -= 2 * Math.PI;
             }
-            console.log()
             this.deltaTimeFromDrag += deltaAngle / (2 * Math.PI);
             this.x_sun = 3 * Math.cos(2 * Math.PI * (this.currentTime + this.deltaTimeFromDrag));
             this.y_sun = 3 * Math.sin(2 * Math.PI * (this.currentTime + this.deltaTimeFromDrag));

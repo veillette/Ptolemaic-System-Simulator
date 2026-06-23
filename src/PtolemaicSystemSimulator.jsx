@@ -11,6 +11,11 @@ export default class PtolemaicSystemSimulator extends React.Component {
     constructor(props) {
         super(props);
         this.orbitViewRef = React.createRef();
+        this.handleNewPlanetaryParameters = this.handleNewPlanetaryParameters.bind(this);
+        this.handleNewControlSettings = this.handleNewControlSettings.bind(this);
+        this.handleNewLongitudes = this.handleNewLongitudes.bind(this);
+        this.handleNewTime = this.handleNewTime.bind(this);
+        this.handleResetButtonClick = this.handleResetButtonClick.bind(this);
         this.state = {
             planetaryParameters: {
                 epicycleSize: 0.66,
@@ -43,8 +48,8 @@ export default class PtolemaicSystemSimulator extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <TitleBar 
-                    onResetClick={this.handleResetButtonClick.bind(this)} 
+                <TitleBar
+                    onResetClick={this.handleResetButtonClick}
                 />
                 <div className="wrapper">
                     <div className="box leftBox">
@@ -52,8 +57,8 @@ export default class PtolemaicSystemSimulator extends React.Component {
                             className = "OrbitView"
                             planetaryParameters={this.state.planetaryParameters}
                             controls={this.state.controls}
-                            onLongitudeChange={this.handleNewLongitudes.bind(this)}
-                            onTimeChange={this.handleNewTime.bind(this)}
+                            onLongitudeChange={this.handleNewLongitudes}
+                            onTimeChange={this.handleNewTime}
                             ref={this.orbitViewRef}
                         />
                         <ZodiacStrip
@@ -66,13 +71,13 @@ export default class PtolemaicSystemSimulator extends React.Component {
                         <div className="controlSection">
                             <PlanetaryParameters
                                 params={this.state.planetaryParameters}
-                                onChange={this.handleNewPlantearyParameters.bind(this)}
+                                onChange={this.handleNewPlanetaryParameters}
                             />
                         </div>
                         <div className="controlSection">
                             <ControlsAndSettings
                                 controls = {this.state.controls}
-                                onChange = {this.handleNewControlSettings.bind(this)}
+                                onChange = {this.handleNewControlSettings}
                             />
                         </div>
                         <div className="controlSection">
@@ -100,7 +105,7 @@ export default class PtolemaicSystemSimulator extends React.Component {
         );
     }
 
-    handleNewPlantearyParameters(newParams) {
+    handleNewPlanetaryParameters(newParams) {
         this.setState({ planetaryParameters: newParams });
     }
 

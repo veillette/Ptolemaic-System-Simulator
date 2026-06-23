@@ -1,0 +1,51 @@
+name: Deploy to GitHub Pages
+
+# Builds the site and publishes it to GitHub Pages. This replaces the old
+# workflow of committing the contents of dist/ to the repository.
+#
+# NOTE: For this to take effect the repository's Pages source must be set to
+# "GitHub Actions" (Settings -> Pages -> Build and deployment -> Source).
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp -r dist css img index.html favicon.ico site.webmanifest _site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

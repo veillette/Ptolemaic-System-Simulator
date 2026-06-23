@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 
 const DAYS_PER_YEAR_EXACT = 365.2422;
 
-export default class ControlsAndSettings extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+export default class Timer extends React.Component {
     render() {
         const t = this.props.time;
         const years = Math.sign(t) * Math.floor(Math.abs(t));
@@ -19,6 +15,6 @@ export default class ControlsAndSettings extends React.Component {
     }
 }
 
-ControlsAndSettings.propTypes = {
+Timer.propTypes = {
     time: PropTypes.number.isRequired
 }
