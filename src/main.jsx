@@ -1,6 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PtolemaicSystemSimulator from './PtolemaicSystemSimulator.jsx';
 
 const domContainer = document.querySelector('#sim-root');
-ReactDOM.render(<PtolemaicSystemSimulator />, domContainer);
+const root = createRoot(domContainer);
+root.render(<PtolemaicSystemSimulator />);

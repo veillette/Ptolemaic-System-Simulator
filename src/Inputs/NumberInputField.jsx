@@ -17,6 +17,10 @@ export default class NumberInputField extends React.Component {
             value: 0,
             hasFocus: false
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
 
     render() {
@@ -28,7 +32,7 @@ export default class NumberInputField extends React.Component {
         }
         return (
             <form
-                onSubmit={this.handleSubmit.bind(this)}
+                onSubmit={this.handleSubmit}
                 style={{display: "inline-block"}}
                 >
                 <input
@@ -37,9 +41,9 @@ export default class NumberInputField extends React.Component {
                     min={this.props.min}
                     max={this.props.max}
                     step={Math.pow(10, -this.props.decimals)}
-                    onChange={this.handleChange.bind(this)}
-                    onFocus={this.handleFocus.bind(this)}
-                    onBlur={this.handleBlur.bind(this)}
+                    onChange={this.handleChange}
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
                     value={value}
                     />
             </form>

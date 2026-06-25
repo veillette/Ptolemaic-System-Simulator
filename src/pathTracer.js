@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import { cubicInterpolation } from './util/interpolation.js';
 
 
 /* The image file that will determine how the trace looks */
@@ -7,18 +8,18 @@ const TRAIL_TEXTURE = PIXI.Texture.from('img/trail.png');
 /* history size determines the maximum number of points to keep track of. */
 const HISTORY_SIZE = 5000;
 
-/** 
+/**
  * The rope size determines how many points will actually be drawn.
- * rope size should be higher than history size.
- * Additional Points will be interpolated to produce a smoother line.
+ * Additional points are interpolated to produce a smoother line. A modest
+ * multiple of the history size keeps the curve smooth without spending a large
+ * amount of per-frame work interpolating points that are visually redundant.
  */
-const ROPE_SIZE = Math.floor(HISTORY_SIZE * 5);
-// const ROPE_SIZE = Math.floor(1.5 * HISTORY_SIZE);
+const ROPE_SIZE = Math.floor(HISTORY_SIZE * 2);
 
 
 /**
  * Path Tracer traces the path of the planet in the simulation. This module
- * encapsulates the logic of the tracer so that it is less easier to use
+ * encapsulates the logic of the tracer so that it is easier to use
  * in the OrbitView.
  */
 export default class PathTracer {
@@ -39,7 +40,7 @@ export default class PathTracer {
 
         this.rope = new PIXI.SimpleRope(TRAIL_TEXTURE, this.points);
         this.setPathLength(pathLength);
-        this.rope.blendmode = PIXI.BLEND_MODES.ADD;
+        this.rope.blendMode = PIXI.BLEND_MODES.ADD;
     }
 
     getPixiObject() {
@@ -52,7 +53,7 @@ export default class PathTracer {
 
     /**
      * Clearing the tracer line requires setting all of the points to a single
-     * location. Provide that location (which should be the current location of 
+     * location. Provide that location (which should be the current location of
      * the planet).
      */
     clear(x, y) {
@@ -85,42 +86,13 @@ export default class PathTracer {
     _updateRopePoints() {
         for (let i = 0; i < ROPE_SIZE; i++) {
             const p = this.points[i];
-    
+
             // Smooth the curve with cubic interpolation to prevent sharp edges.
             const ix = cubicInterpolation(this.historyX, i / ROPE_SIZE * HISTORY_SIZE);
             const iy = cubicInterpolation(this.historyY, i / ROPE_SIZE * HISTORY_SIZE);
-    
+
             p.x = ix;
             p.y = iy;
         }
     }
-}
-
-
-
-// =================================================================
-
-
-
-
-function clipInput(k, arr) {
-    if (k < 0) k = 0;
-    if (k > arr.length - 1) k = arr.length - 1;
-    return arr[k];
-}
-
-function getTangent(k, factor, array) {
-    return factor * (clipInput(k + 1, array) - clipInput(k - 1, array)) / 2;
-}
-
-function cubicInterpolation(array, t, tangentFactor) {
-    if (tangentFactor == null) tangentFactor = 1;
-
-    const k = Math.floor(t);
-    const m = [getTangent(k, tangentFactor, array), getTangent(k + 1, tangentFactor, array)];
-    const p = [clipInput(k, array), clipInput(k + 1, array)];
-    t -= k;
-    const t2 = t * t;
-    const t3 = t * t2;
-    return (2 * t3 - 3 * t2 + 1) * p[0] + (t3 - 2 * t2 + t) * m[0] + (-2 * t3 + 3 * t2) * p[1] + (t3 - t2) * m[1];
 }

@@ -4,25 +4,25 @@ import PropTypes from 'prop-types';
 export default class ControlsAndSettings extends React.Component {
     constructor(props) {
         super(props);
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+        this.handleSliderChange = this.handleSliderChange.bind(this);
+        this.handleCheckbox = this.handleCheckbox.bind(this);
     }
 
     render() {
         let buttonValue = this.props.controls.isAnimationEnabled ? "Pause Animation" : "Start Animation";
         const CheckBox = (name, displayName) => {
-            let classNamePostfix = this.props.controls[name] ? `checked` : `unchecked`;
             return (
-                <div>
-                    <div className={`CheckboxWrap_${classNamePostfix}`}>
-                        <input
-                            type="checkbox"
-                            name={name}
-                            id={name}
-                            checked={this.props.controls[name]}
-                            onChange={this.handleCheckbox.bind(this)}
-                            className="custom-control-input"
-                        />
-                        <label htmlFor={name} className="CheckBoxLabel custom-control-label">{displayName}</label>
-                    </div>
+                <div className="form-check">
+                    <input
+                        type="checkbox"
+                        name={name}
+                        id={name}
+                        checked={this.props.controls[name]}
+                        onChange={this.handleCheckbox}
+                        className="form-check-input"
+                    />
+                    <label htmlFor={name} className="form-check-label">{displayName}</label>
                 </div>
             );
         }
@@ -33,7 +33,7 @@ export default class ControlsAndSettings extends React.Component {
                     className="btn btn-primary"
                     type="button"
                     value={buttonValue}
-                    onClick={this.handleButtonClick.bind(this)}
+                    onClick={this.handleButtonClick}
                 />
                 <p></p>
                 <label htmlFor="animationRate">Animation Rate</label>
@@ -45,9 +45,9 @@ export default class ControlsAndSettings extends React.Component {
                     max="1"
                     step="0.01"
                     value={this.props.controls.animationRate}
-                    onChange={this.handleSliderChange.bind(this)}
+                    onChange={this.handleSliderChange}
                 />
-                <div className="custom-control custom-checkbox">
+                <div>
                     {CheckBox("showDeferent", "Show Deferent")}
                     {CheckBox("showEpicycle", "Show Epicycle")}
                     {CheckBox("showPlanetVector", "Show Planet Vector")}
@@ -66,7 +66,7 @@ export default class ControlsAndSettings extends React.Component {
                     max="1"
                     step="0.01"
                     value={this.props.controls.pathDuration}
-                    onChange={this.handleSliderChange.bind(this)}
+                    onChange={this.handleSliderChange}
                 />
             </React.Fragment>
         );

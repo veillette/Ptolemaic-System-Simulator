@@ -59,6 +59,7 @@ export default class PlanetaryParameters extends React.Component {
         this.handlePresetSelection = this.handlePresetSelection.bind(this);
         this.handleSingleVariableChange = this.handleSingleVariableChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleRadioBoxes = this.handleRadioBoxes.bind(this);
     }
 
     render() {
@@ -114,29 +115,29 @@ export default class PlanetaryParameters extends React.Component {
                 </fieldset>
                 <fieldset>
                     <legend>Planet Type</legend>
-                    <div className="custom-control custom-radio custom-control-inline">
+                    <div className="form-check form-check-inline">
                         <input
                             type="radio"
                             name="planetType"
                             id="planetTypeRadio1"
                             value={PlanetTypes.SUPERIOR}
                             checked={this.props.params.planetType === PlanetTypes.SUPERIOR}
-                            onChange={this.handleRadioBoxes.bind(this)}
-                            className="custom-control-input"
+                            onChange={this.handleRadioBoxes}
+                            className="form-check-input"
                         />
-                        <label htmlFor="planetTypeRadio1" className="custom-control-label">Superior</label>
+                        <label htmlFor="planetTypeRadio1" className="form-check-label">Superior</label>
                     </div>
-                    <div className="custom-control custom-radio custom-control-inline">
+                    <div className="form-check form-check-inline">
                         <input
                             type="radio"
                             name="planetType"
                             id="planetTypeRadio2"
                             value={PlanetTypes.INFERIOR}
                             checked={this.props.params.planetType === PlanetTypes.INFERIOR}
-                            onChange={this.handleRadioBoxes.bind(this)}
-                            className="custom-control-input"
+                            onChange={this.handleRadioBoxes}
+                            className="form-check-input"
                         />
-                        <label htmlFor="planetTypeRadio2" className="custom-control-label">Inferior</label>
+                        <label htmlFor="planetTypeRadio2" className="form-check-label">Inferior</label>
                     </div>
                 </fieldset>
             </React.Fragment>
@@ -162,7 +163,7 @@ export default class PlanetaryParameters extends React.Component {
     handleRadioBoxes(event) {
         this.props.onChange({
             ...this.props.params,
-            [event.target.name]: Number.parseInt(event.target.value)
+            [event.target.name]: Number.parseInt(event.target.value, 10)
         });
     }
 }
@@ -211,7 +212,7 @@ class PlanetPresetSelection extends React.Component {
             );
         });
         return (
-            <form onSubmit={this.handleSubmit} className="form-inline">
+            <form onSubmit={this.handleSubmit} className="d-flex align-items-center">
                 <label> 
                     PRESETS:
                     &nbsp;&nbsp;
@@ -239,6 +240,8 @@ PlanetPresetSelection.propTypes = {
 class SingleVariableControl extends React.Component {
     constructor(props) {
         super(props);
+        this.handleNewValue = this.handleNewValue.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     render() {
@@ -252,7 +255,7 @@ class SingleVariableControl extends React.Component {
                     min={this.props.min}
                     max={this.props.max}
                     step={this.props.step}
-                    onNewValue={this.handleNewValue.bind(this)}
+                    onNewValue={this.handleNewValue}
                     value={this.props.value}
                     decimals={this.props.decimals}
                     />
@@ -263,7 +266,7 @@ class SingleVariableControl extends React.Component {
                     min={this.props.min}
                     max={this.props.max}
                     step={this.props.step}
-                    onChange={this.handleChange.bind(this)}
+                    onChange={this.handleChange}
                     value={value}
                     />
             </label>
